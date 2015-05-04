@@ -273,32 +273,42 @@ CONTAINS
                 END DO
                 CMCounter = 0
                 CMisAfter = .FALSE.
+                x = 0
                 DO CMi = 1, GridN
                         DO CMj = 1, GridN
                                 CMC1 = CMPLX(CMi,CMj)
                                 CALL ANYTEST(CMC1, CMlogic)
+                                IF(ANY(FractalSArrayE == CMC1)) THEN
+                                        x = x + 1
+                                END IF
 !                                IF(ANY(FractalSArrayE == CMC1) .AND. &
                                 IF(CMlogic .AND. &
                                         (CMCounter == 0)) THEN
                                         CMisAfter = .TRUE.
                                         CMCounter = 1
 !                                ELSE IF(ANY(FractalSArrayE .NE. CMC1) .AND. &
-                                ELSE IF(.NOT. CMlogic .AND.&
+                                 ELSE IF(.NOT. CMlogic .AND.&
+                                        CMCounter == 1) THEN
+                                        IF(GridMatrix(CMi-1,CMj) == 1) THEN
+                                                GridMatrix(CMi,CMj) = 1
+                                                CMCounter = CMcounter + 1
+                                        ELSE
+                                                CMisAfter = .FALSE.
+                                                CMCounter = 0
+                                        END IF
+                                 ELSE IF(.NOT. CMlogic .AND.&
                                         CMisAfter) THEN
                                         GridMatrix(CMi,CMj) = 1
                                         CMCounter = CMCOUNTER + 1
 !                                ELSE IF(ANY(FractalSArrayE /= CMC1) .AND. &
-                                ELSE IF(.NOT. CMlogic .AND.&
-                                        CMCOUNTER == 1) THEN
-                                        CMisAfter = .FALSE.
-                                        CMCounter = 0
 !                                ELSE IF(ANY(FractalSArrayE == CMC1)) THEN
-                                ELSE IF(CMlogic) THEN
+                                ELSE IF(CMlogic .AND. CMcounter /= 1) THEN
                                         CMisAfter = .FALSE.
                                         CMCounter = 0
                                 END IF
                         END DO
                 END DO
+                PRINT *, GridN**2, x, 4*2*8**(lDim-1)
         END SUBROUTINE
         SUBROUTINE ANYTEST(ATCM1,ATLogic)
                 COMPLEX, INTENT(IN) :: ATCM1
