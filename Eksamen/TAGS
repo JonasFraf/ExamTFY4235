@@ -1,0 +1,18 @@
+
+fractalmod.f90,353
+        SUBROUTINE CreatePoints(6,52
+        SUBROUTINE DoLine(14,379
+        SUBROUTINE AddBetween(86,3978
+        SUBROUTINE MainFracRoutine(113,5316
+        SUBROUTINE MakeSquare(159,7521
+        SUBROUTINE MakeGrid(183,8711
+        SUBROUTINE ExtendFA(200,9396
+        SUBROUTINE CreateMatrix(254,12236
+        SUBROUTINE ANYTEST(303,14731
+
+openmod.f90,35
+        SUBROUTINE openfile(6,133
+
+WPmod.f90,0
+
+main.f90,0

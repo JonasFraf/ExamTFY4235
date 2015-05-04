@@ -1,0 +1,4 @@
+fractalmod.o : fractalmod.f90 WPmod.o 
+main.o : main.f90 openmod.o fractalmod.o WPmod.o 
+openmod.o : openmod.f90 
+WPmod.o : WPmod.f90 
