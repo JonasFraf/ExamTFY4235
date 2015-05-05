@@ -1,48 +1,40 @@
 PROGRAM main
-        USE WPmod
-        USE fractalmod
-        USE openmod
+        USE WPmod       ! Contains all global parameters as well as WP
+        USE fractalmod  ! Contains all functions in the creation of the fractals
+        USE openmod     ! Opens and tests if files are succesfully opened
+        USE plotmod     ! Contains routines for plotting all graphs
+        USE eigenmod    ! Contains routines for eigenproblem
         IMPLICIT NONE
         CALL MakeGrid
-        CALL openfile('test.dat', test)
+  !      CALL openfile('test.dat', test)
         CALL openfile('test2.dat', test2)
- !       CALL CreatePoints
+        CALL openfile('Grid3D.dat', grid3d)
+        CALL openfile('EFractal2D.dat', efractal)
+!        CALL CreatePoints
         CALL MainFracRoutine
         CALL MakeSquare
-  !      DO i = 1, 9
-!        DO i = 1,FracN
-        PRINT *, MGXmin
-        PRINT *, MGYmin
-        DO i = 1,FracN*4
- !               WRITE(test,*) REAL(FractalArray(i)),IMAG(FractalArray(i))
- !               WRITE(test,*) (REAL(FractalSArray(i))-MGXmin)*Delta,(IMAG(FractalSArray(i)) - MGYmin)*Delta
-!                WRITE(test,*) REAL(FractalSArray(i))*Delta,IMAG(FractalSArray(i))*Delta
-        END DO
         CALL ExtendFA
-
-        DO i = 1, FracN*8
- !               WRITE(test,*) REAL(FractalSArrayE(i))*Delta,IMAG(FractalSArrayE(i))*Delta
-                WRITE(test,*) REAL(FractalSArrayE(i)),IMAG(FractalSArrayE(i))
-
-        END DO
-
-
-        IF (ANY(FractalSArray == CMPLX(0,0))) THEN
-                PRINT *, 'HAHA, WORKED'
-        END IF
         CALL CreateMatrix
-        x = 0
+        CALL Indexise
+        CALL CreateAMatrix
+        CALL plotExtendedFractal2D
+        ALLOCATE (WR(N))
+        CALL SolveEP
+        CALL BuildBack
+        CALL plotGrid3D(kLambda,2)
+        x = Delta
         y = Delta
-        DO i = 1, NTot*2
-                x = x+Delta
-                DO j = 1, NTot*2
-                        WRITE (test2,*) x,y,GridMatrix(i,j)
-                        y = y+Delta
+        k = 0
+        DO i = 1,GridN
+                DO j = 1,GridN
+ !                       WRITE(test2,*) AMatrix(i,:)
+                 !       WRITE(test2,*) WR(i)
+ !                       PRINT *, AMatrix(i,:)
+                         WRITE (test2,*) x, y, GridMatrixR(i,j)
+                        x = x+Delta
                 END DO
-                WRITE (test2,*) 
-                y = Delta
+                x = Delta
+                y = y+Delta
+                WRITE(test2,*)
         END DO
-
-
-
 END PROGRAM

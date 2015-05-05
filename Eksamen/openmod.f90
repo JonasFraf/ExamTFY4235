@@ -1,6 +1,7 @@
 MODULE openmod
 IMPLICIT NONE
-        INTEGER, PARAMETER      :: test = 1, test2 = 2
+        INTEGER, PARAMETER      :: test = 1, test2 = 2, grid3d = 11,&
+                                  &efractal = 12, gnuplot = 13
         INTEGER                 :: res 
 CONTAINS
         SUBROUTINE openfile(filename, filenr)

@@ -195,7 +195,7 @@ CONTAINS
                 END DO
                 MGYmin = MGYmax - NTot
                 MGXmax = NTot + MGXmin
-                PRINT *, MGXmin, MGXmax, MGYmin, MGYmax
+ !               PRINT *, MGXmin, MGXmax, MGYmin, MGYmax
         END SUBROUTINE
         SUBROUTINE ExtendFA()
         ! This subroutine will extend the fractalSquareArray in order to get a
@@ -278,39 +278,54 @@ CONTAINS
                         DO CMj = 1, GridN
                                 CMC1 = CMPLX(CMi,CMj)
                                 CALL ANYTEST(CMC1, CMlogic)
-                                IF(ANY(FractalSArrayE == CMC1)) THEN
-                                        x = x + 1
-                                END IF
 !                                IF(ANY(FractalSArrayE == CMC1) .AND. &
                                 IF(CMlogic .AND. &
                                         (CMCounter == 0)) THEN
+                                ! When crossing boundary the CMisAfter is
+                                ! switched on and the value assigning can begin
                                         CMisAfter = .TRUE.
                                         CMCounter = 1
 !                                ELSE IF(ANY(FractalSArrayE .NE. CMC1) .AND. &
                                  ELSE IF(.NOT. CMlogic .AND.&
                                         CMCounter == 1) THEN
+                                ! Checks if we are not on the boundary, and that
+                                ! we just got off a vertical boundary, if this
+                                ! is the case, we may, or may not be inside
                                         IF(GridMatrix(CMi-1,CMj) == 1) THEN
+                                        ! If the left element is 1, then we are
+                                        ! inside the boundary
                                                 GridMatrix(CMi,CMj) = 1
                                                 CMCounter = CMcounter + 1
                                         ELSE
+                                        ! Else, we are out and the CMisAfter is
+                                        ! turned off so that it does not assign
+                                        ! any values
                                                 CMisAfter = .FALSE.
                                                 CMCounter = 0
                                         END IF
                                  ELSE IF(.NOT. CMlogic .AND.&
                                         CMisAfter) THEN
+                                ! If we are not on the boundary and the CMisAfter
+                                ! is turned on, then the gridpoint should 
+                                ! be assigned a value
                                         GridMatrix(CMi,CMj) = 1
                                         CMCounter = CMCOUNTER + 1
 !                                ELSE IF(ANY(FractalSArrayE /= CMC1) .AND. &
 !                                ELSE IF(ANY(FractalSArrayE == CMC1)) THEN
                                 ELSE IF(CMlogic .AND. CMcounter /= 1) THEN
+                                ! If we cross the boundary whilst we have made
+                                ! alot of switches, then we know we are about to
+                                ! leave the boundary or get on a vertical line
+                                ! in which would lead to a evaluation of the
+                                ! latter case.
                                         CMisAfter = .FALSE.
                                         CMCounter = 0
                                 END IF
                         END DO
                 END DO
-                PRINT *, GridN**2, x, 4*2*8**(lDim-1)
         END SUBROUTINE
         SUBROUTINE ANYTEST(ATCM1,ATLogic)
+                ! Does exactly what ANY does, but is more controlled and open
                 COMPLEX, INTENT(IN) :: ATCM1
                 LOGICAL, INTENT(OUT) :: ATLogic
                 INTEGER               :: ATi
@@ -324,7 +339,5 @@ CONTAINS
 
 
         END SUBROUTINE
-
-
 
 END MODULE

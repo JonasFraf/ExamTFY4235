@@ -5,7 +5,7 @@ MODULE WPmod
         INTEGER, PARAMETER :: sp = kind(0.0)
         INTEGER, PARAMETER :: wp = dp
 
-        INTEGER                                 :: i, j
+        INTEGER                                 :: i, j, k
         ! General itterators
         REAL (wp), PARAMETER                    :: Length = 1._wp
         ! Length of each linesegment
@@ -40,5 +40,21 @@ MODULE WPmod
         INTEGER         :: MGYmin, MGYmax
         ! Defines the range of y
         REAL (wp)                               :: x,y
-
+        ! Used to keep track of position
+        REAL, DIMENSION(:,:), ALLOCATABLE       :: IndexMatrix
+        ! Keeps track of which element we are currently working on, and all of
+        ! its neighbours
+        INTEGER                                 :: N
+        ! Master N, which determines the number of elements within the boundary
+        REAL(wp), DIMENSION(:,:), ALLOCATABLE    :: AMatrix
+        ! AMatrix is the matrix of the eigenvalue problem
+        REAL (wp), DIMENSION(:), ALLOCATABLE    :: UVec
+        ! Is the Eigenvector
+        COMPLEX, DIMENSION(:), ALLOCATABLE      :: PVec
+        ! Keeps track of the position of each element in UVec.
+        REAL(wp), DIMENSION(:), ALLOCATABLE     :: WR
+        ! Contains all of the eigenvalues
+        REAL(wp), DIMENSION(:,:), ALLOCATABLE   :: GridMatrixR
+        ! The real grid, final grid containing the eigenvectors
+        INTEGER, PARAMETER                      :: kLambda = 1
 END MODULE

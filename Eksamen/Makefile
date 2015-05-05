@@ -1,8 +1,8 @@
 PROG =	MyExe
 
-SRCS =	fractalmod.f90 main.f90 openmod.f90 WPmod.f90
+SRCS =	fractalmod.f90 main.f90 openmod.f90 WPmod.f90 plotmod.f90 eigenmod.f90
 
-OBJS =	fractalmod.o main.o openmod.o WPmod.o
+OBJS =	fractalmod.o main.o openmod.o WPmod.o plotmod.o eigenmod.o
 
 C           = gcc
 CFLAGS      = -O
@@ -22,7 +22,7 @@ F77LDFLAGS  =  -L$(HOME)/Fortran/Lib/
 F90         = gfortran
 F90FLAGS    = -Wall -Wextra
 F90LIBS     =  
-#F90LIBS     = -lmod -lnr -llapack90 -llapack -lpgplot -lU77 
+F90LIBS     = -I/usr/include -llapack95 -llapack 
 F90LDFLAGS  = -s -L$(HOME)/Fortran/Lib/ 
 
 LIBS        =  $(F90LIBS) 	
