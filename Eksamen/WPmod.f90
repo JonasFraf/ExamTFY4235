@@ -9,7 +9,7 @@ MODULE WPmod
         ! General itterators
         REAL (wp), PARAMETER                    :: Length = 1._wp
         ! Length of each linesegment
-        INTEGER, PARAMETER                      :: lDim = 3
+        INTEGER, PARAMETER                      :: lDim = 4
         ! Level of the fractal
         INTEGER, PARAMETER                      :: FracN = 8**(ldim-1) + 1
         ! Dimension of FractalArray

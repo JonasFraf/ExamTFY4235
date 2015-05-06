@@ -219,7 +219,7 @@ CONTAINS
                 M = 10
                 ALLOCATE(W(N))
                 ALLOCATE(Z(N,N))
-                CALL LA_SBEVX(LAPACKMatrix, W, 'L',Z=Z,IL = 1,IU=M, M=M)
+                CALL LA_SBEVX(LAPACKMatrix, W, 'L',Z=Z,IL = 1,IU=N, M=M)
                 PRINT *, 'DONE'
         END SUBROUTINE
         

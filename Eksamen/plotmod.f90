@@ -46,7 +46,7 @@ CONTAINS
                 
                 !WRITE(gnuplot,*) 'splot "Grid3D.dat" w pm3d, "EFractal2D.dat" w l fc&
                 !                & rgb "black" notitle '
-                !WRITE(gnuplot,*) 'splot "Grid3D.dat" w pm3d notitle '
+   !             WRITE(gnuplot,*) 'splot "Grid3D.dat" w pm3d notitle '
                 WRITE(gnuplot,*) 'splot "Grid3D.dat" w pm3d, "EFractal2D.dat"&
                                  w l fc rgb "black" notitle '
                 x = 0

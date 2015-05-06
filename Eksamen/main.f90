@@ -17,22 +17,27 @@ PROGRAM main
         CALL FindNOFL
     !    CALL CreateAMatrix
         CALL CreateAMatrix2
-        CALL FindShortesDiag
- !       shortestDiag = 128
+   !     CALL FindShortesDiag
+        shortestDiag = 128
         CALL BuildLAPACKMatrix
         ALLOCATE (WR(N))
         PRINT *, 'REACHED SOLVER'
         CALL SolveEP
+        CALL openfile('EFractal2D.dat', efractal)
+        CALL plotExtendedFractal2D
         DO kLambda = 1,10
                 PRINT *, kLambda
                 CALL openfile('Grid3D.dat', grid3d)
-                CALL openfile('EFractal2D.dat', efractal)
                 CALL BuildBack
-                CALL plotExtendedFractal2D
                 CALL plotGrid3D(kLambda,2)
                 DEALLOCATE(GridMatrixR)
                 CLOSE(grid3d)
-                CLOSE(efractal)
+                IF (k/=10) THEN
+                CALL SYSTEM('rm Grid3D.dat')
+                END IF
+        END DO
+        DO i = 1,N
+                WRITE (test,*) W(i)
         END DO
         x = Delta
         y = Delta

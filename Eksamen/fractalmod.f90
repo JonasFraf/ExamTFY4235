@@ -11,7 +11,8 @@ CONTAINS
                 CALL DoLine(FractalArray(1), FractalArray(9), FractalArray)
         END SUBROUTINE
 
-        SUBROUTINE DoLine(DLposStart, DLposEnd, DLArray) ! Is a l1->l2 operation
+        SUBROUTINE DoLine(DLposStart, DLposEnd, DLArray) 
+        ! Is a l1->l2 operation, takes a line from level
                 COMPLEX, INTENT(IN)                     :: DLposStart, DLposEnd
                 ! Start and end position of linesegment
                 COMPLEX, DIMENSION(9), INTENT (INOUT)   :: DLArray
@@ -85,7 +86,7 @@ CONTAINS
 
         SUBROUTINE AddBetween(ABposStart, ABposEnd, ABisx, ABisposx, ABisposy,&
                               ABArray)
-        !Creates new points between start and stop
+        !Creates new points between start and stop, also known as "Branching"
                 COMPLEX, INTENT(IN)                     :: ABposStart, ABposEnd
                 ! Start and stop of a branch
                 LOGICAL, INTENT(IN)                     :: ABisx, ABisposx,&
@@ -128,7 +129,7 @@ CONTAINS
                 FractalArray(9) = CMPLX(4,0)
                 CALL DoLine(FractalArray(1), FractalArray(9),FractalArray)
 
-                ! IF lDim is 2, then we are done with this 
+                ! IF lDim is 2, then we are done with this and should not move on
                 IF (lDim < 3) THEN
                         RETURN
                 END IF
@@ -149,6 +150,8 @@ CONTAINS
                                 CALL DoLine(FractalArray(1+(MFRi-1)*8),&
                                             FractalArray(1+(MFRi)*8),&
                                             MFRLineSeg)
+                                ! Here the linesegment is added to the main
+                                ! segment
                                 DO MFRk = 1,7
                                         FractalArray(1+(MFRi-1)*8+MFRk) = &
                                         MFRLineSeg(MFRk+1)
@@ -158,7 +161,7 @@ CONTAINS
                 END DO
         END SUBROUTINE
         SUBROUTINE MakeSquare()
-        ! Builds the square fractal
+        ! Builds the quadratic Koch fractal
                 INTEGER         :: MSi
                 ! Itterator
                 INTEGER         :: MSxMax
@@ -184,14 +187,15 @@ CONTAINS
         END SUBROUTINE
 
         SUBROUTINE MakeGrid()
-        ! Creates the grid which contains the fractal
+        ! Creates the grid parameters which contains the fractal
                 INTEGER         :: MGi, MGj
                 ! Itterator
 
                 NTot = INT(1._wp/Delta)
                 MGXmin = 0
                 MGYmax = 0
-                ! This is the case because we branch on every increasing level
+                ! This is the case because we branch on every increasing level,
+                ! meaning that the sizes need to be adjusted accordingly
                 DO MGi = 2, lDim
                         NTot = NTot + INT(1/Delta)*2/4**(MGi-1)
                         MGYmax = MGYmax + INT(1/Delta)/4**(MGi-1)
