@@ -13,7 +13,7 @@ MODULE WPmod
         ! Level of the fractal
         INTEGER, PARAMETER                      :: FracN = 8**(ldim-1) + 1
         ! Dimension of FractalArray
-        REAL(wp), PARAMETER                      :: Delta = 1._wp/4**(lDim-1)
+        REAL(wp)                                :: Delta = 1._wp/4**(lDim-1)
         ! This is the number of elements along a line with size L
         COMPLEX, DIMENSION(:), ALLOCATABLE      :: FractalArray
         ! The array containing each corner point of the fractal
@@ -53,8 +53,18 @@ MODULE WPmod
         COMPLEX, DIMENSION(:), ALLOCATABLE      :: PVec
         ! Keeps track of the position of each element in UVec.
         REAL(wp), DIMENSION(:), ALLOCATABLE     :: WR
+        REAL(wp), DIMENSION(:), ALLOCATABLE     :: W
         ! Contains all of the eigenvalues
         REAL(wp), DIMENSION(:,:), ALLOCATABLE   :: GridMatrixR
         ! The real grid, final grid containing the eigenvectors
-        INTEGER, PARAMETER                      :: kLambda = 1
+        INTEGER                                 :: kLambda = 2
+        ! The k eigenvector to be plotted
+        INTEGER                                 :: ShortestDiag
+        ! Stores the shortest diagonal which will define our band matrix
+        REAL(wp), DIMENSION(:,:), ALLOCATABLE   :: LAPACKMatrix
+        ! The Matrix which will be used in LA_SBEVX
+        REAL(wp), DIMENSION(:,:), ALLOCATABLE   :: Z
+        ! Matrix of eigenvectors
+        INTEGER, DIMENSION(:), ALLOCATABLE      :: NOFLArray
+        ! Number Of Flat Lines
 END MODULE

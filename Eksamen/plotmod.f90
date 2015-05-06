@@ -30,16 +30,25 @@ CONTAINS
                 IF (PGi == 1) THEN
                         WRITE(gnuplot, *) 'set title "Fractal Drum"'
                 ELSE IF (PGi == 2) THEN
-                        WRITE(gnuplot, *) 'set title "First EigenValue"'
+                        WRITE(gnuplot,'(A,i2.2,A)') 'set title "Mode: ',&
+                                                     GnuIFrame,'"'
                 END IF
  !               WRITE(gnuplot, *) 'set pm3d'
  !               WRITE(gnuplot,*) 'set view 80,15'
+                WRITE(gnuplot,*) 'set view 0,0'
                 WRITE(gnuplot, *) 'unset key'
   !              WRITE(gnuplot, *) 'set palette grey'
                 
                 WRITE(gnuplot, *) 'set contour'
-                WRITE(gnuplot,*) 'splot "Grid3D.dat" w l, "EFractal2D.dat" w l fc&
-                                & rgb "black" notitle '
+ !               WRITE(gnuplot, *) 'set contour base'
+  !              WRITE(gnuplot, *) 'set nosurface'
+   !             WRITE(gnuplot, *) 'set view 0,0'
+                
+                !WRITE(gnuplot,*) 'splot "Grid3D.dat" w pm3d, "EFractal2D.dat" w l fc&
+                !                & rgb "black" notitle '
+                !WRITE(gnuplot,*) 'splot "Grid3D.dat" w pm3d notitle '
+                WRITE(gnuplot,*) 'splot "Grid3D.dat" w pm3d, "EFractal2D.dat"&
+                                 w l fc rgb "black" notitle '
                 x = 0
                 y = Delta
                 DO i = 1, GridN

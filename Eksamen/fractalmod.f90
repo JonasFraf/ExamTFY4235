@@ -111,6 +111,7 @@ CONTAINS
         END SUBROUTINE
         
         SUBROUTINE MainFracRoutine()
+        ! Creates the fractal, but 1D start
                 INTEGER         :: MFRi
                 ! Itterator over every linesegment in current level
                 INTEGER         :: MFRj
@@ -157,6 +158,7 @@ CONTAINS
                 END DO
         END SUBROUTINE
         SUBROUTINE MakeSquare()
+        ! Builds the square fractal
                 INTEGER         :: MSi
                 ! Itterator
                 INTEGER         :: MSxMax
@@ -180,7 +182,9 @@ CONTAINS
                 ! Shift the graph so that it starts at (1,1)
                 FractalSArray = FractalSArray - CMPLX(MGXmin-1, MGYmin-1)
         END SUBROUTINE
+
         SUBROUTINE MakeGrid()
+        ! Creates the grid which contains the fractal
                 INTEGER         :: MGi, MGj
                 ! Itterator
 
@@ -197,6 +201,7 @@ CONTAINS
                 MGXmax = NTot + MGXmin
  !               PRINT *, MGXmin, MGXmax, MGYmin, MGYmax
         END SUBROUTINE
+
         SUBROUTINE ExtendFA()
         ! This subroutine will extend the fractalSquareArray in order to get a
         ! finer grid
@@ -250,8 +255,11 @@ CONTAINS
                         EFAispos = .FALSE.
                         EFAisy = .FALSE.
                 END DO
+                Delta = Delta/2._wp
         END SUBROUTINE
+
         SUBROUTINE CreateMatrix()
+        !Creates the "matrix" where we give a number to each inside the fractal
                 INTEGER         :: CMi, CMj, CMx, CMy
                 ! Iterators
                 COMPLEX         :: CMC1
@@ -278,14 +286,12 @@ CONTAINS
                         DO CMj = 1, GridN
                                 CMC1 = CMPLX(CMi,CMj)
                                 CALL ANYTEST(CMC1, CMlogic)
-!                                IF(ANY(FractalSArrayE == CMC1) .AND. &
                                 IF(CMlogic .AND. &
                                         (CMCounter == 0)) THEN
                                 ! When crossing boundary the CMisAfter is
                                 ! switched on and the value assigning can begin
                                         CMisAfter = .TRUE.
                                         CMCounter = 1
-!                                ELSE IF(ANY(FractalSArrayE .NE. CMC1) .AND. &
                                  ELSE IF(.NOT. CMlogic .AND.&
                                         CMCounter == 1) THEN
                                 ! Checks if we are not on the boundary, and that
@@ -310,8 +316,6 @@ CONTAINS
                                 ! be assigned a value
                                         GridMatrix(CMi,CMj) = 1
                                         CMCounter = CMCOUNTER + 1
-!                                ELSE IF(ANY(FractalSArrayE /= CMC1) .AND. &
-!                                ELSE IF(ANY(FractalSArrayE == CMC1)) THEN
                                 ELSE IF(CMlogic .AND. CMcounter /= 1) THEN
                                 ! If we cross the boundary whilst we have made
                                 ! alot of switches, then we know we are about to
@@ -325,7 +329,7 @@ CONTAINS
                 END DO
         END SUBROUTINE
         SUBROUTINE ANYTEST(ATCM1,ATLogic)
-                ! Does exactly what ANY does, but is more controlled and open
+        ! Does exactly what ANY does, but is more controlled and open
                 COMPLEX, INTENT(IN) :: ATCM1
                 LOGICAL, INTENT(OUT) :: ATLogic
                 INTEGER               :: ATi
